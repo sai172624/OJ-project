@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import { BrowserRouter, Route,Routes} from 'react-router-dom';
 import Register from './authentication/registerpage';
+import Login from './authentication/loginpage';
 import Homepage from './homepage';  
 
 
@@ -17,7 +18,7 @@ function App() {
       <Navbar/>
       <Routes>
         <Route path='/' element={<Homepage/>} />
-      <Route path="/login" element={<Register/>} />
+      <Route path="/login" element={<Login/>} />
       <Route path="/register" element={<Register/>} />
       </Routes>
 

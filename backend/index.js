@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import { dbConnection } from './database/db.js';
 import User from './models/User.js';
 import authRoutes from './router/authRoutes.js';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -12,17 +13,18 @@ const port = process.env.PORT;
 // ✅ Middleware to parse JSON
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 // ✅ Connect to MongoDB
 dbConnection();
 
-// ✅ Default route
+
 app.get('/', (req, res) => {
   res.send('Hello world is coming from backend index.js');
 });
 
-// ✅ Mount routes
-app.use("/api/auth", authRoutes);
+// ✅ register and login
+app.use("/auth", authRoutes);
 
 // ✅ Start server
 app.listen(port, () => console.log(`Server is running on port ${port}`));

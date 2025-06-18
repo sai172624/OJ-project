@@ -8,7 +8,7 @@ node_modules/
 # Ignore .env files
 .env
 /frontend/.env
-/backend/.env
+/backend/react-app/.env
 
 # Optional: Ignore Mac system files
 .DS_Store
