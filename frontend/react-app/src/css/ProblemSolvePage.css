@@ -1,0 +1,98 @@
+/* src/css/ProblemSolvePage.css */
+
+.problem-solve-page {
+  display: flex;
+  padding: 20px;
+  gap: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f9f9;
+}
+
+/* Left Column */
+.left-panel {
+  flex: 1;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+.left-panel h2 {
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+.left-panel p {
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.testcase-box {
+  background-color: #f1f1f1;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  font-family: monospace;
+}
+
+.testcase-box pre {
+  background: #e8e8e8;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+/* Right Column */
+.right-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.language-select {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.language-select select {
+  padding: 5px;
+  font-size: 14px;
+}
+
+textarea {
+  width: 100%;
+  font-family: monospace;
+  font-size: 14px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  resize: vertical;
+  background-color: #fdfdfd;
+}
+
+.testcase-run-box h4 {
+  margin-bottom: 5px;
+}
+
+button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 5px;
+  background-color: #3498db;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #2980b9;
+}

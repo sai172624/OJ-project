@@ -2,7 +2,10 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { dbConnection } from './database/db.js';
 import User from './models/User.js';
+
 import authRoutes from './router/authRoutes.js';
+import adminRoutes from './router/adminRoutes.js';
+import problemRoutes from "./router/ProblemRoutes.js";
 import cors from 'cors';
 
 dotenv.config();
@@ -25,6 +28,10 @@ app.get('/', (req, res) => {
 
 // ✅ register and login
 app.use("/auth", authRoutes);
+app.use("/admin", adminRoutes);
+
+app.use("/problems", problemRoutes);
+
 
 // ✅ Start server
 app.listen(port, () => console.log(`Server is running on port ${port}`));

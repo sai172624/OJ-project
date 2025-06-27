@@ -1,33 +1,72 @@
-.navbar{
-    display: flex;
-    justify-content: space-between;
-     background-color: #101624;
-     color: white;
-     padding: 20px;
-}
-.navbar-left{
-    display: flex;
-    gap: 20px;
-}   
-.navbar-right{
-    display: flex;
-    gap: 20px;
-}
-button {
-  background-color: #007bff;  /* blue */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  height: 4rem;
+  background-color: #1a1a1a;
   color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-button:hover {
-  background-color: #dc3545;  /* red */
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
-a{
-    text-decoration: none;
-    color: white;
-    padding: 8px 16px;
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background-color: #4CAF50;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.brand-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-link {
+  color: #ccc;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: white;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.login-btn {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+}
+
+.register-btn {
+  background-color: #4CAF50;
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.register-btn:hover {
+  background-color: #45a049;
 }

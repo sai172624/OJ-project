@@ -1,87 +1,82 @@
 import { useState } from "react";
-import { loginUser } from "../apis/auth";  // your API function
+import { useNavigate } from "react-router-dom";
+import { loginUser } from "../apis/auth";
+import "../css/login.css";
 
 const Login = () => {
-    const [formData, setFormData] = useState({
-        email: "",
-        password: ""
-    });
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
 
-    const [error, setError] = useState("");
+  const handleChange = (e) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    if (!formData.email || !formData.password) {
+      setError("All fields are required.");
+      return;
+    }
 
-        // Basic validation
-        if (!formData.email || !formData.password) {
-            setError("All fields are required.");
-            return;
+    setError("");
+
+    try {
+      const response = await loginUser(formData);
+      if (response.success) {
+        localStorage.setItem("token", response.token);
+        localStorage.setItem("firstname", response.firstname);
+        localStorage.setItem("role", response.role);
+
+        if (response.role === "admin") {
+          alert("Admin login successful!");
+          navigate("/admin/dashboard");
+        } else {
+          alert("User login successful!");
+          navigate("/user/dashboard");
         }
+      } else {
+        setError(response.message || "Login failed.");
+      }
+    } catch (err) {
+      console.error("Login Error:", err);
+      setError(err?.response?.data?.message || "Login failed. Please try again.");
+    }
+  };
 
-        setError("");
-        //console.log(formData);
+  return (
+    <div className="login-page">
+      <div className="login-box">
+        <h2>Welcome Back 👋</h2>
+        <p className="subtitle">Login to your account</p>
 
-        try {
-            const response = await loginUser(formData);  // API call to backend
-            console.log("Login Success:", response);
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email address"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
 
-            const userRole = response.role;
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
 
-            // Redirect based on role:
-            if (userRole === "admin") {
-                // Navigate to Admin Dashboard
-                alert("Admin login successful!");
-                // Example: navigate("/admin/dashboard");
-            } else {
-                // Navigate to User Problem Solving Page
-                alert("User login successful!");
-                // Example: navigate("/user/problems");
-            }
+          {error && <p className="error-text">{error}</p>}
 
-        } catch (err) {
-            console.error("Login Error:", err);
-            setError(err?.response?.data?.message || "Login failed. Please try again.");
-        }
-    };
-
-    return (
-        <div className="login">
-            <h2>Login</h2>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                />
-                <br /><br />
-
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                />
-                <br /><br />
-
-                {/* Show error if any */}
-                {error && <p style={{ color: "red" }}>{error}</p>}
-
-                <button type="submit">Login</button>
-            </form>
-        </div>
-    );
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    </div>
+  );
 };
 
 export default Login;

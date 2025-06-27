@@ -21,7 +21,7 @@ export const registerUser = async (req, res) => {
             lastname,
             email,
             password: hashedPassword,
-            role: "user"   // ✅ Always set role to user here
+            role: "user"  // ✅ Very important to set!
         });
 
         await newUser.save();
@@ -33,6 +33,7 @@ export const registerUser = async (req, res) => {
         res.status(500).json({ success: false, message: "Server error" });
     }
 };
+
 
 
 export const loginUser = async (req, res) => {
@@ -62,9 +63,11 @@ export const loginUser = async (req, res) => {
 
         // 4️⃣ Send response
         res.status(200).json({
+            success: true,   // ✅ very important for frontend!
             message: "Login successful",
             token: token,
-            role: user.role   // 🚩 Frontend uses this to redirect
+            role: user.role,
+            firstname: user.firstname   // so you can show "Welcome Laxman"
         });
 
     } catch (err) {
