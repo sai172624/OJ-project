@@ -1,15 +1,12 @@
 # dependencies
 node_modules/
-frontend/node_modules/
-backend/node_modules/
-compiler/node_modules/
 
 # production
 /dist
 
 # misc
 .DS_Store
-
+.env
 .vscode/
 .vite/
 *.log
@@ -27,19 +24,3 @@ build/
 
 # OS generated files
 Thumbs.db 
-
-# secrets
-keys/
-
-# compiler generated files
-codes/
-outputs/
-/compiler/codes/
-/compiler/outputs/
-
-# environment variables
-.env
-frontend/.env
-backend/.env
-compiler/.env
-**/.env
