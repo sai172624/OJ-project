@@ -11,7 +11,14 @@ export const runCode = async (req, res) => {
 
   try {
     const filePath = generateFile(language, code);
-    const output = await executeCode(filePath, language, input);
+    let timeLimit = 1000;
+    if (language === "java") {
+      timeLimit = 2000;
+    } else if (language === "python") {
+      timeLimit = 5000;
+    }
+    let memoryLimit = 256 * 1024 * 1024; // 256 MB
+    const output = await executeCode(filePath, language, input, timeLimit, memoryLimit);
     res.status(200).json({ success: true, output });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message || error.stderr });

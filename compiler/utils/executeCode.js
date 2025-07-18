@@ -11,8 +11,8 @@ export const executeCode = (
   filePath,
   language,
   input,
-  timeLimit = 1000, // 1s default
-  memoryLimit = 256 * 1024 // 256 KB buffer
+  timeLimit = 1000,
+  memoryLimit = 256 * 1024
 ) => {
   return new Promise((resolve, reject) => {
     const basename = path.basename(filePath, path.extname(filePath));
@@ -35,20 +35,26 @@ export const executeCode = (
         compileArgs = [filePath];
         break;
       case "python":
-        // Python doesn't require compilation
-        return execute(filePath, "python3", [filePath], input, timeLimit, memoryLimit, dir, resolve, reject);
+        return execute("python3", [filePath], input, timeLimit, memoryLimit, dir, resolve, reject);
       default:
         return reject(new Error("Unsupported language"));
     }
 
     const compile = spawn(compileCommand, compileArgs, { cwd: dir });
 
+    let compileStderr = "";
+    compile.stderr.on("data", (data) => {
+      compileStderr += data.toString();
+    });
+
     compile.on("error", (err) => {
-      reject(new Error("Compilation error: " + err.message));
+      return reject(new Error("Compilation error: " + err.message));
     });
 
     compile.on("close", (code) => {
-      if (code !== 0) return reject(new Error("Compilation failed"));
+      if (code !== 0) {
+        return reject(new Error("Compilation failed:\n" + compileStderr));
+      }
 
       let runCmd, runArgs;
       if (language === "cpp" || language === "c") {
@@ -59,23 +65,20 @@ export const executeCode = (
         runArgs = [path.basename(filePath, ".java")];
       }
 
-      execute(filePath, runCmd, runArgs, input, timeLimit, memoryLimit, dir, resolve, reject);
+      execute(runCmd, runArgs, input, timeLimit, memoryLimit, dir, resolve, reject);
     });
   });
 };
 
-// --- Core executor ---
-function execute(filePath, command, args, input, timeLimit, memoryLimit, cwd, resolve, reject) {
+function execute(command, args, input, timeLimit, memoryLimit, cwd, resolve, reject) {
   const run = spawn(command, args, {
     cwd,
     maxBuffer: memoryLimit,
   });
 
-  let stdout = "";
-  let stderr = "";
+  let stdout = "", stderr = "";
   let isTimedOut = false;
 
-  // Handle timeout
   const timeout = setTimeout(() => {
     isTimedOut = true;
     run.kill("SIGKILL");
@@ -99,8 +102,11 @@ function execute(filePath, command, args, input, timeLimit, memoryLimit, cwd, re
       return reject(new Error("Time Limit Exceeded"));
     }
 
-    if (code !== 0 && stderr.trim()) {
-      return reject(new Error("Runtime Error / Memory Limit Exceeded"));
+    if (code !== 0) {
+      if (stderr.toLowerCase().includes("outofmemory") || stderr.toLowerCase().includes("heap")) {
+        return reject(new Error("Memory Limit Exceeded"));
+      }
+      return reject(new Error("Runtime Error:\n" + stderr));
     }
 
     resolve(stdout.trim());

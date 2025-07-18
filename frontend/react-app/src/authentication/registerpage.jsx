@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { registerUser } from "../apis/auth";
-import "../css/register.css"; // Make sure this file exists
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -9,7 +8,9 @@ const Register = () => {
     email: "",
     password: ""
   });
-
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
@@ -19,13 +20,18 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.firstname || !formData.lastname || !formData.email || !formData.password) {
+    if (!formData.firstname || !formData.lastname || !formData.email || !formData.password || !confirmPassword) {
       setError("All fields are required.");
       return;
     }
 
     if (formData.password.length < 6) {
       setError("Password must be at least 6 characters.");
+      return;
+    }
+
+    if (formData.password !== confirmPassword) {
+      setError("Passwords do not match.");
       return;
     }
 
@@ -42,6 +48,7 @@ const Register = () => {
         email: "",
         password: ""
       });
+      setConfirmPassword("");
     } catch (err) {
       console.error("Error:", err.response?.data);
       setError(err.response?.data?.message || "Registration failed. Please try again.");
@@ -49,12 +56,12 @@ const Register = () => {
   };
 
   return (
-    <div className="register-page">
-      <div className="register-box">
-        <h2>Create Account</h2>
-        <p className="subtitle">Join the CodeJudge platform</p>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-950 to-gray-800 px-4">
+      <div className="w-full max-w-md bg-gray-900 rounded-2xl shadow-xl p-8 flex flex-col items-center">
+        <h2 className="text-3xl font-extrabold text-white mb-2">Create Account</h2>
+        <p className="text-gray-400 mb-6">Join the CodeJudge platform</p>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
           <input
             type="text"
             name="firstname"
@@ -62,6 +69,7 @@ const Register = () => {
             value={formData.firstname}
             onChange={handleChange}
             required
+            className="w-full px-4 py-2 rounded-lg bg-gray-800 text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400"
           />
 
           <input
@@ -71,6 +79,7 @@ const Register = () => {
             value={formData.lastname}
             onChange={handleChange}
             required
+            className="w-full px-4 py-2 rounded-lg bg-gray-800 text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400"
           />
 
           <input
@@ -80,20 +89,52 @@ const Register = () => {
             value={formData.email}
             onChange={handleChange}
             required
+            className="w-full px-4 py-2 rounded-lg bg-gray-800 text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400"
           />
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
+          <div className="relative w-full">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-2 rounded-lg bg-gray-800 text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400"
+            />
+            <button
+              type="button"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              onClick={() => setShowPassword((prev) => !prev)}
+              tabIndex={-1}
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          </div>
 
-          {error && <p className="error-text">{error}</p>}
+          <div className="relative w-full">
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={e => setConfirmPassword(e.target.value)}
+              required
+              className="w-full px-4 py-2 rounded-lg bg-gray-800 text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400"
+            />
+            <button
+              type="button"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              onClick={() => setShowConfirmPassword((prev) => !prev)}
+              tabIndex={-1}
+            >
+              {showConfirmPassword ? "Hide" : "Show"}
+            </button>
+          </div>
 
-          <button type="submit">Register</button>
+          {error && <p className="text-red-400 text-sm text-center -mt-2">{error}</p>}
+
+          <button type="submit" className="w-full py-2 mt-2 rounded-lg bg-green-600 hover:bg-green-500 text-white font-bold text-lg transition">Register</button>
         </form>
       </div>
     </div>

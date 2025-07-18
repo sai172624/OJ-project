@@ -1,10 +1,10 @@
 import axios from "axios";
-const API_URI = import.meta.env.VITE_API_BASE_URL;
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 
 export const addProblemWithTestcases = async (problemPayload) => {
     try {
-        const response = await axios.post(`${API_URI}/admin/addproblems`, problemPayload);
+        const response = await axios.post(`${API_URL}/admin/addproblems`, problemPayload);
         return response.data;
     } catch (err) {
         console.log('Error while adding problem:', err);
@@ -16,7 +16,7 @@ export const addProblemWithTestcases = async (problemPayload) => {
 export const fetchProblems = async (page) => {
   try {
     console.log("Fetching problems for page:", page);
-    const response = await axios.get(`${API_URI}/admin/problems?page=${page}`);
+    const response = await axios.get(`${API_URL}/admin/problems?page=${page}`);
     return response.data.problems;
   } catch (err) {
     console.error("Error fetching problems:", err);
@@ -26,8 +26,9 @@ export const fetchProblems = async (page) => {
 
 // Delete a problem by id
 export const deleteProblem = async (id) => {
+  console.log("Deleting problem with id:", id);
   try {
-    await axios.delete(`${API_URI}/admin/delete/${id}`);
+    await axios.delete(`${API_URL}/admin/delete/${id}`);
     return true;
   } catch (err) {
     console.error("Error deleting problem:", err);
@@ -37,7 +38,7 @@ export const deleteProblem = async (id) => {
 
 export const getUpdateFormData = async (id) => {
   try {
-    const response = await axios.get(`${API_URI}/admin/editProblem/${id}`);
+    const response = await axios.get(`${API_URL}/admin/editProblem/${id}`);
     return response.data;
   } catch (err) {
     console.error("Error fetching update form data:", err);
@@ -46,6 +47,20 @@ export const getUpdateFormData = async (id) => {
 };
 
 export const updateProblem = async (problemId, updatedData) => {
-  const res = await axios.put(`${API_URI}/admin/update/${problemId}`, updatedData);
+  const res = await axios.put(`${API_URL}/admin/update/${problemId}`, updatedData);
   return res.data;
+};
+
+
+
+export const fetchAdminStats = async () => {
+  console.log("Fetching admin stats");
+  try{
+    const res = await axios.get(`${API_URL}/admin/stats`); 
+  return res.data;
+  }
+  catch (err) {
+    console.error("Error fetching admin stats:", err);
+    throw err;
+  }
 };

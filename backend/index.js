@@ -6,6 +6,8 @@ import User from './models/User.js';
 import authRoutes from './router/authRoutes.js';
 import adminRoutes from './router/adminRoutes.js';
 import problemRoutes from "./router/ProblemRoutes.js";
+import aiRoutes from "./router/aiRoutes.js";
+import submissionRoutes from "./router/submissionRoutes.js";
 import cors from 'cors';
 
 dotenv.config();
@@ -31,6 +33,8 @@ app.use("/auth", authRoutes);
 app.use("/admin", adminRoutes);
 
 app.use("/problems", problemRoutes);
+app.use("/ai",aiRoutes);
+app.use("/submissions", submissionRoutes);
 
 
 // ✅ Start server

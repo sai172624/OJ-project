@@ -23,18 +23,36 @@ export const runCode = async ({ code, language, input }) => {
 
 
 
-export const submitCode = async ({ code, language, problemId }) => {
+export const submitCode = async ({ code, language, problemId ,userId}) => {
   try {
     console.log("sending the submit request");
     const res = await axios.post(`${BASE_URL}/api/submit`, {
       code,
       language,
-      problemId
+      problemId,
+      userId,
     });
 
-    return res.data; // { html: "<div>...</div>" }
+    return res.data; 
   } catch (err) {
     console.error("Submit error:", err);
     throw new Error("Submission failed.");
+  }
+};
+
+export const verifyCode = async ({ code, language, testcases }) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/api/verify`, {
+      code,
+      language,
+      testcases,
+    });
+    return response.data;
+  } catch (err) {
+    console.error("Verify Error:", err.response?.data || err.message);
+    return {
+      success: false,
+      error: err.response?.data?.error || "Verification failed",
+    };
   }
 };

@@ -67,7 +67,8 @@ export const loginUser = async (req, res) => {
             message: "Login successful",
             token: token,
             role: user.role,
-            firstname: user.firstname   // so you can show "Welcome Laxman"
+            firstname: user.firstname,
+            userId: user._id     // so you can show "Welcome Laxman"
         });
 
     } catch (err) {

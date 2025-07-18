@@ -22,3 +22,13 @@ export const getProblemById = async (req, res) => {
   }
 };
 
+export const getAllProblems = async (req, res) => {
+  try {
+    const problems = await Problem.find({}, 'id title difficulty');
+    res.json(problems);
+  } catch (err) {
+    console.error("Error fetching all problems:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+

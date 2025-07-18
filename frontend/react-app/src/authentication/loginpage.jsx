@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { loginUser } from "../apis/auth";
-import "../css/login.css";
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
 
@@ -24,18 +24,17 @@ const Login = () => {
 
     try {
       const response = await loginUser(formData);
+      
       if (response.success) {
         localStorage.setItem("token", response.token);
         localStorage.setItem("firstname", response.firstname);
         localStorage.setItem("role", response.role);
+        localStorage.setItem("userId", response.userId);
 
-        if (response.role === "admin") {
-          alert("Admin login successful!");
-          navigate("/admin/dashboard");
-        } else {
-          alert("User login successful!");
-          navigate("/user/dashboard");
-        }
+        // Redirect to the page the user came from, or default
+        const redirectTo = location.state?.from || (response.role === "admin" ? "/admin/dashboard" : "/user/problems");
+        alert(`${response.role === "admin" ? "Admin" : "User"} login successful!`);
+        navigate(redirectTo, { replace: true });
       } else {
         setError(response.message || "Login failed.");
       }
@@ -46,12 +45,12 @@ const Login = () => {
   };
 
   return (
-    <div className="login-page">
-      <div className="login-box">
-        <h2>Welcome Back 👋</h2>
-        <p className="subtitle">Login to your account</p>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-950 to-gray-800 px-4">
+      <div className="w-full max-w-md bg-gray-900 rounded-2xl shadow-xl p-8 flex flex-col items-center">
+        <h2 className="text-3xl font-extrabold text-white mb-2">Welcome Back <span role='img' aria-label='wave'>👋</span></h2>
+        <p className="text-gray-400 mb-6">Login to your account</p>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
           <input
             type="email"
             name="email"
@@ -59,6 +58,7 @@ const Login = () => {
             value={formData.email}
             onChange={handleChange}
             required
+            className="w-full px-4 py-2 rounded-lg bg-gray-800 text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400"
           />
 
           <input
@@ -68,12 +68,17 @@ const Login = () => {
             value={formData.password}
             onChange={handleChange}
             required
+            className="w-full px-4 py-2 rounded-lg bg-gray-800 text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400"
           />
 
-          {error && <p className="error-text">{error}</p>}
+          {error && <p className="text-red-400 text-sm text-center -mt-2">{error}</p>}
 
-          <button type="submit">Login</button>
+          <button type="submit" className="w-full py-2 mt-2 rounded-lg bg-green-600 hover:bg-green-500 text-white font-bold text-lg transition">Login</button>
         </form>
+        <div className="mt-4 text-center text-gray-400 text-sm">
+          Don't have an account?{' '}
+          <a href="/register" className="text-green-400 hover:underline">Register</a>
+        </div>
       </div>
     </div>
   );

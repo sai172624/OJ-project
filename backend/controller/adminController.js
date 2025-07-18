@@ -1,5 +1,8 @@
+
+import User from "../models/User.js";
 import Problem from "../models/Problem.js";
 import TestCase from "../models/Testcase.js";
+import Submission from "../models/Submission.js";
 export const addProblemWithTestcases= async (req, res) => {
     try {
         const { name, statement, code, difficulty, topics, sampleTestcases, hiddenTestcases } = req.body;
@@ -186,3 +189,22 @@ export const updateProblem = async (req, res) => {
   }
 };
 
+//stats
+
+
+export const getAdminStats = async (req, res) => {
+  try {
+    const totalUsers = await User.countDocuments({ role: "user" });
+    const totalProblems = await Problem.countDocuments();
+
+    const userIds = await User.find({ role: "user" }).select("_id");
+    const userIdList = userIds.map(user => user._id);
+    
+    const totalSubmissions = await Submission.countDocuments({ userId: { $in: userIdList } });
+
+    res.status(200).json({ totalUsers, totalProblems, totalSubmissions });
+  } catch (err) {
+    console.error("Admin Stats Error:", err);
+    res.status(500).json({ error: "Failed to fetch stats" });
+  }
+};
