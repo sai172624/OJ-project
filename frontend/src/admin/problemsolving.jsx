@@ -9,7 +9,7 @@ import { getAIHint, getAICodeReview } from "../apis/ai";
 import UserNavbar from "../user/usernavbar";
 import AdminNavbar from "./adminnavbar";
 import "../index.css";
-import Navbar from "../Navbar";
+import Navbar from "../navbar";
 
 // Custom hook to detect large screens
 function useIsLargeScreen() {
