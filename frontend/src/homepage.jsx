@@ -1,4 +1,4 @@
-import Navbar from './Navbar';
+import Navbar from './navbar';
 import { useState, useEffect } from 'react';
 import { fetchProblems } from './apis/admin';
 import { Link, useNavigate } from 'react-router-dom';
@@ -43,13 +43,20 @@ const Homepage = () => {
   // Handler for Get Started button
   const handleGetStarted = (e) => {
     e.preventDefault();
+    console.log("Get Started button clicked");
+    
     const token = localStorage.getItem('token');
     if (!token) {
+      console.log("No token found, navigating to login");
       navigate('/login');
     } else {
+      console.log("Token found, scrolling to featured section");
       const featuredSection = document.getElementById('featured');
       if (featuredSection) {
         featuredSection.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        console.log("Featured section not found, scrolling to top");
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
   };
@@ -63,13 +70,12 @@ const Homepage = () => {
           <div className="max-w-2xl mx-auto">
             <h1 className="text-4xl sm:text-5xl font-extrabold text-white mb-4 drop-shadow-lg">Sharpen Your Coding Skills</h1>
             <p className="text-lg sm:text-xl text-blue-100 mb-6">Practice with curated problems to ace your next technical interview</p>
-            <a
-              href="#featured"
+            <button
               onClick={handleGetStarted}
               className="inline-block px-6 py-3 bg-yellow-400 text-gray-900 font-bold rounded-lg shadow hover:bg-yellow-300 transition"
             >
               Get Started
-            </a>
+            </button>
           </div>
         </section>
         {/* Platform Features Section */}
