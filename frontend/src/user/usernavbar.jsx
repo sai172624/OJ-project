@@ -22,6 +22,8 @@ const UserNavbar = () => {
     navigate('/');
   };
 
+  const isLoggedIn = Boolean(localStorage.getItem('token'));
+
   return (
     <nav className="sticky top-0 z-50 w-full bg-gray-900 text-white shadow-md">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-2">
