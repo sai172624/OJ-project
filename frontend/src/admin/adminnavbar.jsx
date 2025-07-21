@@ -29,8 +29,8 @@ const AdminNavbar = () => {
         {/* Left: Logo & Title */}
         <div className="flex items-center space-x-3">
           <Link to="/" className="flex items-center space-x-3 hover:opacity-80 focus:outline-none">
-            <span className="bg-green-600 rounded-lg px-3 py-1 text-2xl font-bold text-white flex items-center justify-center" style={{fontFamily: 'monospace', letterSpacing: '-1px'}}>CJ</span>
-            <span className="text-2xl font-extrabold text-white tracking-tight">CodeJudge</span>
+          <span className="bg-green-600 rounded-lg px-3 py-1 text-2xl font-bold text-white flex items-center justify-center" style={{fontFamily: 'monospace', letterSpacing: '-1px'}}>CJ</span>
+          <span className="text-2xl font-extrabold text-white tracking-tight">CodeJudge</span>
           </Link>
           <span className="ml-4 text-sm text-gray-300 hidden lg:inline">{firstname} <span className="text-yellow-400">(Admin)</span></span>
         </div>

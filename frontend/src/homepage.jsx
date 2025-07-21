@@ -8,6 +8,18 @@ const Homepage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const role = localStorage.getItem("role");
+      if (role === 'admin') {
+        navigate("/admin/dashboard", { replace: true });
+      } else {
+        navigate("/user/problems", { replace: true });
+      }
+    }
+  }, [navigate]);
+
+  useEffect(() => {
     const getProblems = async () => {
       try {
         const problems = await fetchProblems(1); // Fetch first page
@@ -49,13 +61,13 @@ const Homepage = () => {
             <h1 className="text-4xl sm:text-5xl font-extrabold text-white mb-4 drop-shadow-lg">Sharpen Your Coding Skills</h1>
             <p className="text-lg sm:text-xl text-blue-100 mb-6">Practice with curated problems to ace your next technical interview</p>
             { !localStorage.getItem('token') && (
-              <a
-                href="#featured"
-                onClick={handleGetStarted}
-                className="inline-block px-6 py-3 bg-yellow-400 text-gray-900 font-bold rounded-lg shadow hover:bg-yellow-300 transition"
-              >
-                Get Started
-              </a>
+            <a
+              href="#featured"
+              onClick={handleGetStarted}
+              className="inline-block px-6 py-3 bg-yellow-400 text-gray-900 font-bold rounded-lg shadow hover:bg-yellow-300 transition"
+            >
+              Get Started
+            </a>
             )}
           </div>
         </section>
