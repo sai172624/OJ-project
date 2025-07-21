@@ -25,40 +25,6 @@ const Homepage = () => {
     Hard: 'bg-red-700 text-red-200',
   };
 
-<<<<<<< HEAD
-  // Custom Navbar for homepage without Login button
-  const HomeNavbar = () => (
-    <nav className="sticky top-0 z-50 w-full bg-gray-900 text-white shadow-md">
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-2">
-        <div className="flex items-center space-x-3">
-          <span className="bg-green-600 rounded-lg px-3 py-1 text-2xl font-bold text-white flex items-center justify-center" style={{fontFamily: 'monospace', letterSpacing: '-1px'}}>CJ</span>
-          <span className="text-2xl font-extrabold text-white tracking-tight">CodeJudge</span>
-        </div>
-        <div className="hidden md:flex space-x-4">
-          <Link to="/register" className="px-4 py-1 rounded font-semibold text-white bg-green-600 hover:bg-green-500 transition">Register</Link>
-        </div>
-      </div>
-    </nav>
-  );
-
-  // Handler for Get Started button
-  const handleGetStarted = (e) => {
-    e.preventDefault();
-    console.log("Get Started button clicked");
-    
-    const token = localStorage.getItem('token');
-    if (!token) {
-      console.log("No token found, navigating to login");
-      navigate('/login');
-    } else {
-      console.log("Token found, scrolling to featured section");
-      const featuredSection = document.getElementById('featured');
-      if (featuredSection) {
-        featuredSection.scrollIntoView({ behavior: 'smooth' });
-      } else {
-        console.log("Featured section not found, scrolling to top");
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-=======
   // Handler for Get Started button
   const handleGetStarted = (e) => {
     e.preventDefault();
@@ -69,32 +35,19 @@ const Homepage = () => {
       const featuredSection = document.getElementById('featured');
       if (featuredSection) {
         featuredSection.scrollIntoView({ behavior: 'smooth' });
->>>>>>> 4484a2d (Frontend: Hide auth buttons when logged in, show 4 featured problems, Get Started → Register)
       }
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-950 text-gray-100 flex flex-col">
-<<<<<<< HEAD
-      <HomeNavbar />
-=======
       <Navbar />
->>>>>>> 4484a2d (Frontend: Hide auth buttons when logged in, show 4 featured problems, Get Started → Register)
       <main className="flex-1 w-full">
         {/* Hero Section */}
         <section className="w-full bg-gradient-to-r from-green-600 to-blue-600 py-16 px-4 text-center">
           <div className="max-w-2xl mx-auto">
             <h1 className="text-4xl sm:text-5xl font-extrabold text-white mb-4 drop-shadow-lg">Sharpen Your Coding Skills</h1>
             <p className="text-lg sm:text-xl text-blue-100 mb-6">Practice with curated problems to ace your next technical interview</p>
-<<<<<<< HEAD
-            <button
-              onClick={handleGetStarted}
-              className="inline-block px-6 py-3 bg-yellow-400 text-gray-900 font-bold rounded-lg shadow hover:bg-yellow-300 transition"
-            >
-              Get Started
-            </button>
-=======
             { !localStorage.getItem('token') && (
               <a
                 href="#featured"
@@ -104,7 +57,6 @@ const Homepage = () => {
                 Get Started
               </a>
             )}
->>>>>>> 4484a2d (Frontend: Hide auth buttons when logged in, show 4 featured problems, Get Started → Register)
           </div>
         </section>
         {/* Platform Features Section */}
@@ -149,11 +101,7 @@ const Homepage = () => {
                 </tr>
               </thead>
               <tbody>
-<<<<<<< HEAD
-                {featuredProblems.map((problem, idx) => (
-=======
                 {featuredProblems.slice(0, 4).map((problem, idx) => (
->>>>>>> 4484a2d (Frontend: Hide auth buttons when logged in, show 4 featured problems, Get Started → Register)
                   <tr key={problem._id} className="border-b border-gray-800 hover:bg-gray-800 transition">
                     <td className="py-2 px-2 text-gray-200">{idx + 1}</td>
                     <td className="py-2 px-2">

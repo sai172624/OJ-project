@@ -136,14 +136,11 @@ const Register = () => {
 
           <button type="submit" className="w-full py-2 mt-2 rounded-lg bg-green-600 hover:bg-green-500 text-white font-bold text-lg transition">Register</button>
         </form>
-<<<<<<< HEAD
-=======
         {/* Add login prompt below the form */}
         <div className="mt-4 text-gray-400 text-sm">
           Already have an account?{' '}
           <a href="/login" className="text-blue-400 hover:underline font-semibold">Login</a>
         </div>
->>>>>>> 4484a2d (Frontend: Hide auth buttons when logged in, show 4 featured problems, Get Started → Register)
       </div>
     </div>
   );
