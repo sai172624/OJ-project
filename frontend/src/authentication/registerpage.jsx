@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { registerUser } from "../apis/auth";
+import toast from "react-hot-toast";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -12,6 +15,18 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const role = localStorage.getItem("role");
+      if (role === 'admin') {
+        navigate("/admin/dashboard", { replace: true });
+      } else {
+        navigate("/user/problems", { replace: true });
+      }
+    }
+  }, [navigate]);
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -40,7 +55,7 @@ const Register = () => {
     try {
       const response = await registerUser(formData);
       console.log("Success:", response.data);
-      alert("Registration successful!");
+      toast.success("Registration successful!");
 
       setFormData({
         firstname: "",
@@ -49,6 +64,9 @@ const Register = () => {
         password: ""
       });
       setConfirmPassword("");
+
+      // Redirect to login page
+      navigate('/login');
     } catch (err) {
       console.error("Error:", err.response?.data);
       setError(err.response?.data?.message || "Registration failed. Please try again.");

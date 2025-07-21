@@ -5,6 +5,7 @@ import Split from "react-split";
 import Editor from "@monaco-editor/react";
 import { runCode, submitCode, verifyCode } from "../apis/compiler";
 import "../index.css";
+import toast from "react-hot-toast";
 
 const useIsLargeScreen = () => {
   const [isLarge, setIsLarge] = useState(() => window.innerWidth >= 1024);
@@ -82,15 +83,15 @@ const AddProblem = () => {
       };
 
       const response = await addProblemWithTestcases(payload);
-      console.log("Success:", response);
-      alert("Problem and testcases added successfully!");
-
+      // Handle success
+      console.log("Problem added:", response.data);
+      toast.success("Problem and testcases added successfully!");
       setProblemData({ name: "", statement: "", code: "", difficulty: "", topics: "" });
       setSampleTestcases([{ input: "", expectedOutput: "" }]);
       setHiddenTestcases([{ input: "", expectedOutput: "" }]);
-    } catch (err) {
-      console.error("Error:", err);
-      alert("Failed to add problem.");
+    } catch (error) {
+      console.error("Error adding problem:", error);
+      toast.error("Failed to add problem.");
     }
   };
 

@@ -1,15 +1,31 @@
-import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { loginUser } from "../apis/auth";
+import toast from 'react-hot-toast';
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const role = localStorage.getItem("role");
+      if (role === 'admin') {
+        navigate("/admin/dashboard", { replace: true });
+      } else {
+        navigate("/user/problems", { replace: true });
+      }
+    }
+  }, [navigate]);
+
   const handleChange = (e) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = async (e) => {
@@ -33,7 +49,7 @@ const Login = () => {
 
         // Redirect to the page the user came from, or default
         const redirectTo = location.state?.from || (response.role === "admin" ? "/admin/dashboard" : "/user/problems");
-        alert(`${response.role === "admin" ? "Admin" : "User"} login successful!`);
+        toast.success(`${response.role === "admin" ? "Admin" : "User"} login successful!`);
         navigate(redirectTo, { replace: true });
       } else {
         setError(response.message || "Login failed.");

@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState ,useEffect} from "react";
+import toast from "react-hot-toast";
 
 const AdminNavbar = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const AdminNavbar = () => {
     localStorage.removeItem("firstname");
     localStorage.removeItem("role");
     localStorage.clear();
-    alert("Logged out successfully!");
+    toast.success("Logged out successfully!");
     navigate("/");
   };
 

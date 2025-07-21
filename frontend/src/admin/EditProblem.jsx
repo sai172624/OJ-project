@@ -6,6 +6,7 @@ import Editor from "@monaco-editor/react";
 import { getUpdateFormData, updateProblem } from "../apis/admin";
 import { runCode, verifyCode } from "../apis/compiler";
 import "../index.css";
+import toast from "react-hot-toast";
 
 const EditProblem = () => {
   const { problemId } = useParams();
@@ -50,7 +51,7 @@ const EditProblem = () => {
         setCode(templates[language]);
       } catch (err) {
         console.error("Error fetching problem:", err);
-        alert("Failed to load problem");
+        toast.error("Failed to load problem");
       }
     };
     fetchProblem();
@@ -85,11 +86,11 @@ const EditProblem = () => {
     };
     try {
       await updateProblem(problemId, payload);
-      alert("Problem updated successfully!");
+      toast.success("Problem updated successfully!");
       navigate("/admin/problemlist");
     } catch (err) {
       console.error("Error updating problem:", err);
-      alert("Update failed. Try again.");
+      toast.error("Update failed. Try again.");
     }
   };
 

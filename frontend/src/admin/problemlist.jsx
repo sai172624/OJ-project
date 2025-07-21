@@ -1,8 +1,9 @@
 import { useEffect, useState, useCallback } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { fetchProblems, deleteProblem } from "../apis/admin";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import AdminNavbar from "./adminnavbar";
+import toast from "react-hot-toast";
 
 const DIFFICULTY_COLORS = {
   Easy: "text-green-400 bg-green-900 border-green-700",
@@ -36,15 +37,14 @@ const ProblemList = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure to delete this problem?")) {
+    if (window.confirm("Are you sure you want to delete this problem?")) {
       try {
         await deleteProblem(id);
-        const updated = problems.filter(p => p._id !== id);
-        setProblems(updated);
-        setFilteredProblems(updated);
+        setProblems(problems.filter((p) => p._id !== id));
+        toast.success("Problem deleted successfully.");
       } catch (err) {
-        alert("Failed to delete.");
         console.error(err);
+        toast.error("Failed to delete.");
       }
     }
   };

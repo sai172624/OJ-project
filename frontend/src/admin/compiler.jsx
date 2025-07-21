@@ -74,13 +74,15 @@ const CompilerPage = () => {
   return (
     <div className="min-h-screen w-full bg-[#18181b] text-gray-100 flex flex-col">
       {isAdmin ? <AdminNavbar /> : <UserNavbar />}
-      {/* Responsive flex: row on lg+, col on md- */}
+
+      {/* Responsive Layout: Vertical on mobile, Horizontal on desktop */}
       <div className="flex flex-1 flex-col lg:flex-row">
-        {/* LEFT PANEL */}
-        <div className="w-full lg:w-1/2 bg-[#232323] flex flex-col p-4 min-h-[200px] lg:min-h-[350px]">
+        {/* Left Side: Editor + Controls */}
+        <div className="w-full lg:w-1/2 flex flex-col p-4">
+          {/* Controls */}
           <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
             <div className="flex items-center gap-2">
-              <label className="mr-2 font-semibold">Select Language:</label>
+              <label className="font-semibold">Select Language:</label>
               <select
                 value={language}
                 onChange={(e) => handleLanguageChange(e.target.value)}
@@ -109,7 +111,8 @@ const CompilerPage = () => {
               </button>
             </div>
           </div>
-          <div className="flex-1 mb-3">
+          {/* Editor */}
+          <div className="flex-1 w-full h-64 lg:h-auto">
             <Editor
               height="100%"
               theme="vs-dark"
@@ -120,9 +123,10 @@ const CompilerPage = () => {
             />
           </div>
         </div>
-        {/* RIGHT PANEL */}
-        <div className="w-full lg:w-1/2 bg-[#232323] flex flex-col p-4 min-h-[200px] lg:min-h-[350px]">
-          <div className="testcase-run-box mt-2">
+
+        {/* Right Side: Input/Output */}
+        <div className="w-full lg:w-1/2 flex flex-col p-4">
+          <div className="testcase-run-box mt-2 flex-1 flex flex-col">
             <h4 className="font-semibold mb-1">Testcase Input:</h4>
             <textarea
               value={testInput}
@@ -132,10 +136,10 @@ const CompilerPage = () => {
             />
             <h4 className="font-semibold mb-1">Testcase Output:</h4>
             <div
-              className="testcase-output bg-custom-232323 border border-gray-700 rounded px-3 py-2 min-h-[40px] text-white mb-2"
+              className="testcase-output bg-custom-232323 border border-gray-700 rounded px-3 py-2 min-h-[40px] text-white mb-2 flex-1"
               dangerouslySetInnerHTML={{ __html: testOutputHtml }}
             />
-            {/* AI Code Explanation in right panel */}
+            {/* AI Code Explanation */}
             {(aiLoading || aiExplanation) && (
               <div className="ai-hint-box mt-4">
                 <div className="flex justify-between items-center mb-1">

@@ -9,7 +9,14 @@ const app = express();
 const PORT = process.env.PORT 
 
 // Middlewares
-app.use(cors());
+app.use(cors({
+  origin: [
+    'https://codejudge.space',
+    'https://www.codejudge.space',
+    'http://localhost:5173'
+  ],
+  credentials: true
+}));
 app.use(express.json());
 
 

@@ -1,3 +1,4 @@
+import { Toaster } from 'react-hot-toast';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Register from "./authentication/registerpage";
 import Login from "./authentication/loginpage";
@@ -19,6 +20,7 @@ import AdminContests from './admin/admincontests';
 function App() {
   return (
     <BrowserRouter>
+      <Toaster position="top-center" reverseOrder={false} />
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/login" element={<Login />} />

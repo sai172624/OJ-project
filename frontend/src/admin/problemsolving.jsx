@@ -278,15 +278,15 @@ const ProblemSolvePage = () => {
                   </div>
                 </div>
                 {aiHint && (
-                  <div className="ai-hint-box">
+                  <div className="relative p-4 mt-4 bg-gray-800 border border-gray-700 rounded-lg shadow-lg">
                     <button
                       onClick={() => setAiHint(null)}
-                      className="close-btn"
+                      className="absolute top-2 right-2 text-gray-400 hover:text-white"
                     >
                       &times;
                     </button>
-                    <h4>AI Suggestion:</h4>
-                    <p>{aiHint}</p>
+                    <h4 className="text-lg font-semibold text-yellow-400 mb-2">AI Suggestion:</h4>
+                    <p className="text-gray-300 whitespace-pre-wrap">{aiHint}</p>
                   </div>
                 )}
               </div>
@@ -415,15 +415,15 @@ const ProblemSolvePage = () => {
                   </div>
                 </div>
                 {aiHint && (
-                  <div className="ai-hint-box">
+                  <div className="relative p-4 mt-4 bg-gray-800 border border-gray-700 rounded-lg shadow-lg">
                     <button
                       onClick={() => setAiHint(null)}
-                      className="close-btn"
+                      className="absolute top-2 right-2 text-gray-400 hover:text-white"
                     >
                       &times;
                     </button>
-                    <h4>AI Suggestion:</h4>
-                    <p>{aiHint}</p>
+                    <h4 className="text-lg font-semibold text-yellow-400 mb-2">AI Suggestion:</h4>
+                    <p className="text-gray-300 whitespace-pre-wrap">{aiHint}</p>
                   </div>
                 )}
               </div>
