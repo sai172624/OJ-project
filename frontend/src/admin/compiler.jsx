@@ -112,7 +112,7 @@ const CompilerPage = () => {
             </div>
           </div>
           {/* Editor */}
-          <div className="flex-1 w-full h-64 lg:h-auto">
+          <div className="flex-1 w-full min-h-[350px] lg:h-auto">
             <Editor
               height="100%"
               theme="vs-dark"
