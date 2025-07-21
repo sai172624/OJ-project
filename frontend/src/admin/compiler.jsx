@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Split from "react-split";
 import Editor from "@monaco-editor/react";
 import { runCode } from "../apis/compiler";
 import { getAICodeExplanation } from "../apis/ai";
@@ -7,12 +6,28 @@ import AdminNavbar from "./adminnavbar";
 import UserNavbar from "../user/usernavbar";
 import { useLocation } from "react-router-dom";
 import "../index.css";
+import "../css/ProblemSolvePage.css"; // Import shared styles
 
 const templates = {
-  cpp: `#include <iostream>\nusing namespace std;\n\nint main() {\n    // your code goes here\n    return 0;\n}`,
-  c: `#include <stdio.h>\n\nint main() {\n    // your code goes here\n    return 0;\n}`,
-  java: `public class Main {\n    public static void main(String[] args) {\n        // your code goes here\n    }\n}`,
-  python: `print(\"Hello, World!\")`
+  cpp: `#include <iostream>
+using namespace std;
+
+int main() {
+    cout << "Hello, World!" << endl;
+    return 0;
+}`,
+  c: `#include <stdio.h>
+
+int main() {
+    printf("Hello, World!\\n");
+    return 0;
+}`,
+  java: `public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}`,
+  python: `print("Hello, World!")`
 };
 
 const CompilerPage = () => {
@@ -30,7 +45,6 @@ const CompilerPage = () => {
   useEffect(() => {
     const handleBeforeUnload = (e) => {
       e.preventDefault();
-      // Chrome requires returnValue to be set
       e.returnValue = '';
     };
     window.addEventListener('beforeunload', handleBeforeUnload);
@@ -57,7 +71,6 @@ const CompilerPage = () => {
     }
   };
 
-  // Placeholder for AI code explanation handler
   const handleAICodeExplanation = async () => {
     setAiLoading(true);
     setAiExplanation(null);
@@ -72,17 +85,15 @@ const CompilerPage = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#18181b] text-gray-100 flex flex-col">
+    <div className="min-h-screen flex flex-col bg-[#1e1e1e]">
       {isAdmin ? <AdminNavbar /> : <UserNavbar />}
-
-      {/* Responsive Layout: Vertical on mobile, Horizontal on desktop */}
-      <div className="flex flex-1 flex-col lg:flex-row">
+      <div className="flex-grow flex flex-col lg:flex-row">
         {/* Left Side: Editor + Controls */}
         <div className="w-full lg:w-1/2 flex flex-col p-4">
           {/* Controls */}
-          <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
+          <div className="mb-3 flex flex-wrap items-center gap-4">
             <div className="flex items-center gap-2">
-              <label className="font-semibold">Select Language:</label>
+              <label className="font-semibold text-gray-200">Language:</label>
               <select
                 value={language}
                 onChange={(e) => handleLanguageChange(e.target.value)}
@@ -112,7 +123,7 @@ const CompilerPage = () => {
             </div>
           </div>
           {/* Editor */}
-          <div className="flex-1 w-full min-h-[350px] lg:h-auto">
+          <div className="w-full h-[60vh] lg:h-full lg:flex-grow">
             <Editor
               height="100%"
               theme="vs-dark"
@@ -126,34 +137,34 @@ const CompilerPage = () => {
 
         {/* Right Side: Input/Output */}
         <div className="w-full lg:w-1/2 flex flex-col p-4">
-          <div className="testcase-run-box mt-2 flex-1 flex flex-col">
-            <h4 className="font-semibold mb-1">Testcase Input:</h4>
+          <div className="testcase-run-box flex-grow flex flex-col">
+            <h4 className="font-semibold text-gray-200 mb-1">Testcase Input:</h4>
             <textarea
               value={testInput}
               onChange={(e) => setTestInput(e.target.value)}
               rows={4}
-              className="w-full rounded bg-custom-232323 border border-gray-700 px-3 py-2 text-gray-100 mb-2 focus:outline-none focus:border-gray-700"
+              className="w-full rounded bg-[#2d2d2d] border border-gray-700 px-3 py-2 text-gray-100 mb-2 focus:outline-none focus:border-gray-600"
             />
-            <h4 className="font-semibold mb-1">Testcase Output:</h4>
+            <h4 className="font-semibold text-gray-200 mb-1">Testcase Output:</h4>
             <div
-              className="testcase-output bg-custom-232323 border border-gray-700 rounded px-3 py-2 min-h-[40px] text-white mb-2 flex-1"
+              className="testcase-output bg-[#2d2d2d] border border-gray-700 rounded px-3 py-2 min-h-[100px] text-white mb-2 flex-grow"
               dangerouslySetInnerHTML={{ __html: testOutputHtml }}
             />
             {/* AI Code Explanation */}
             {(aiLoading || aiExplanation) && (
-              <div className="ai-hint-box mt-4">
+              <div className="ai-hint-box mt-4 p-4 bg-[#2d2d2d] border border-gray-700 rounded">
                 <div className="flex justify-between items-center mb-1">
-                  <h4 className="font-semibold">AI Code Explanation:</h4>
+                  <h4 className="font-semibold text-gray-200">AI Code Explanation:</h4>
                   {aiExplanation && (
                     <button
                       onClick={() => setAiExplanation(null)}
-                      className="close-btn text-lg px-2"
+                      className="close-btn text-lg px-2 text-gray-400 hover:text-white"
                     >
                       &times;
                     </button>
                   )}
                 </div>
-                <div className="text-sm whitespace-pre-line">
+                <div className="text-sm whitespace-pre-line text-gray-300">
                   {aiLoading ? "Explaining..." : aiExplanation}
                 </div>
               </div>
