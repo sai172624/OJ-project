@@ -26,11 +26,13 @@ const AdminNavbar = () => {
     <nav className="sticky top-0 z-50 w-full bg-gray-900 text-white shadow-md">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-2">
         {/* Left: Logo & Title */}
-        <Link to="/" className="flex items-center space-x-3">
-          <span className="bg-green-600 rounded-lg px-3 py-1 text-2xl font-bold text-white flex items-center justify-center" style={{fontFamily: 'monospace', letterSpacing: '-1px'}}>CJ</span>
-          <span className="text-2xl font-extrabold text-white tracking-tight">CodeJudge</span>
-        </Link>
-        <span className="ml-4 text-sm text-gray-300 hidden lg:inline">{firstname} <span className="text-yellow-400">(Admin)</span></span>
+        <div className="flex items-center space-x-3">
+          <Link to="/" className="flex items-center space-x-3 hover:opacity-80 focus:outline-none">
+            <span className="bg-green-600 rounded-lg px-3 py-1 text-2xl font-bold text-white flex items-center justify-center" style={{fontFamily: 'monospace', letterSpacing: '-1px'}}>CJ</span>
+            <span className="text-2xl font-extrabold text-white tracking-tight">CodeJudge</span>
+          </Link>
+          <span className="ml-4 text-sm text-gray-300 hidden lg:inline">{firstname} <span className="text-yellow-400">(Admin)</span></span>
+        </div>
         {/* Center: Nav Links (Desktop) */}
         <div className="hidden lg:flex space-x-6">
           <Link to="/admin/dashboard" className="hover:text-yellow-400 transition-colors font-medium">Dashboard</Link>

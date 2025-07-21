@@ -1,6 +1,10 @@
 import Submission from "../models/Submission.js";
 import User from "../models/User.js";
 import Problem from "../models/Problem.js";
+<<<<<<< HEAD
+=======
+import mongoose from "mongoose";
+>>>>>>> 4484a2d (Frontend: Hide auth buttons when logged in, show 4 featured problems, Get Started → Register)
 
 export const getUserProblemSubmissions = async (req, res) => {
   const { problemId, userId } = req.params;
@@ -32,6 +36,14 @@ export const getUserProblemSubmissions = async (req, res) => {
 export const getSubmissionsByUser = async (req, res) => {
   const { userId } = req.params;
 
+<<<<<<< HEAD
+=======
+  // Validate userId
+  if (!userId || !mongoose.Types.ObjectId.isValid(userId)) {
+    return res.status(400).json({ success: false, message: "Invalid or missing userId" });
+  }
+
+>>>>>>> 4484a2d (Frontend: Hide auth buttons when logged in, show 4 featured problems, Get Started → Register)
   try {
     const submissions = await Submission.find({ userId });
     res.json({ success: true, submissions });
