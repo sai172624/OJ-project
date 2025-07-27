@@ -4,32 +4,28 @@ import { generateFile } from "../utils/generateFile.js";
 import { executeCode } from "../utils/executeCode.js";
 
 export const submitCode = async (req, res) => {
-  const { code, language, problemId,userId } = req.body;
+  const { code, language, problemId, userId } = req.body;
 
- console.log("REQ BODY:", req.body);
   if (!code || !language || !problemId || !userId) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
   try {
-    const filePath = generateFile(language, code);
+    const { filePath } = generateFile(language, code);
     const testcases = await TestCase.find({ problemId });
 
     const testResults = [];
     let verdict = "Accepted";
     let timeTaken = 0;
-   
 
     for (let i = 0; i < testcases.length; i++) {
       const tc = testcases[i];
       try {
         let timeLimit = 1000;
-        if (language === "java") {
-          timeLimit = 2000;
-        } else if (language === "python") {
-          timeLimit = 5000;
-        }
-        let memoryLimit = 256 * 1024 * 1024; // 256 MB
+        if (language === "java") timeLimit = 2000;
+        else if (language === "python") timeLimit = 5000;
+
+        let memoryLimit = 256 * 1024 * 1024;
         const start = Date.now();
         const output = await executeCode(filePath, language, tc.input, timeLimit, memoryLimit);
         const end = Date.now();
@@ -57,8 +53,7 @@ export const submitCode = async (req, res) => {
         break;
       }
     }
-console.log('before submission');
-    // ✅ Save the submission to MongoDB
+
     await Submission.create({
       userId,
       problemId,
@@ -66,9 +61,7 @@ console.log('before submission');
       language,
       verdict,
       timeTaken
-       // Currently 0 — update if tracking memory later
     });
-    console.log('after submission');
 
     res.json({ testResults });
   } catch (err) {

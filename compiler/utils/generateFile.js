@@ -9,7 +9,7 @@ if (!fs.existsSync(codesDir)) {
 }
 
 export const generateFile = (language, code) => {
-  const id = uuid().replace(/-/g, "_"); // Safer class/file names
+  const id = uuid().replace(/-/g, "_");
   const extensionMap = {
     cpp: 'cpp',
     c: 'c',
@@ -19,19 +19,19 @@ export const generateFile = (language, code) => {
 
   const extension = extensionMap[language];
 
-  // 🔄 If language is Java, rename the class to match the UUID
   if (language === 'java') {
-    const className = `Class_${id}`;
-    code = code.replace(/class\s+Main/, `class ${className}`);
-    const filename = `${className}.java`;
-    const filePath = path.join(codesDir, filename);
+    const javaDir = path.join(codesDir, id);
+    if (!fs.existsSync(javaDir)) {
+      fs.mkdirSync(javaDir, { recursive: true });
+    }
+    const filename = 'Main.java';
+    const filePath = path.join(javaDir, filename);
     fs.writeFileSync(filePath, code);
-    return filePath;
+    return { filePath, dir: javaDir, id };
   }
 
-  // Other languages
   const filename = `${id}.${extension}`;
   const filePath = path.join(codesDir, filename);
   fs.writeFileSync(filePath, code);
-  return filePath;
+  return { filePath, dir: codesDir, id };
 };

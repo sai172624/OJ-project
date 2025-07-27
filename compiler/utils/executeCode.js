@@ -12,7 +12,7 @@ export const executeCode = (
   language,
   input,
   timeLimit = 1000,
-  memoryLimit = 256 * 1024
+  memoryLimit = 256 * 1024 * 1024,
 ) => {
   return new Promise((resolve, reject) => {
     const basename = path.basename(filePath, path.extname(filePath));
@@ -62,7 +62,7 @@ export const executeCode = (
         runArgs = [];
       } else if (language === "java") {
         runCmd = "java";
-        runArgs = [path.basename(filePath, ".java")];
+        runArgs = ["Main"]; // Always run Main class
       }
 
       execute(runCmd, runArgs, input, timeLimit, memoryLimit, dir, resolve, reject);

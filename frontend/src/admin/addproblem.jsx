@@ -3,7 +3,7 @@ import { addProblemWithTestcases } from "../apis/admin";
 import AdminNavbar from "./adminnavbar";
 import Split from "react-split";
 import Editor from "@monaco-editor/react";
-import { runCode, submitCode, verifyCode } from "../apis/compiler";
+import { runCode, verifyCode } from "../apis/compiler";
 import "../index.css";
 import toast from "react-hot-toast";
 
